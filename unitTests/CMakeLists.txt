@@ -1,0 +1,34 @@
+
+INCLUDE_DIRECTORIES(
+  ${CMAKE_SOURCE_DIR}/include
+  ${RBDL_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIRS}
+  ${URDF_INCLUDE_DIRS}
+  )
+LINK_DIRECTORIES(
+  ${RBDL_LIBRARY_DIRS}
+  ${URDF_LIBRARY_DIRS}
+)
+
+ADD_EXECUTABLE (testPositionTask test_position_task.cpp)
+TARGET_LINK_LIBRARIES (testPositionTask
+  osik-control
+  ${RBDL_LIBRARIES}
+  ${URDF_LIBRARIES}
+  ${RBDL_URDFReader_LIBRARIES}
+  )
+
+ADD_EXECUTABLE (testSolverWQP test_solver_wqp.cpp)
+TARGET_LINK_LIBRARIES (testSolverWQP
+  osik-control
+  ${RBDL_LIBRARIES}
+  ${URDF_LIBRARIES}
+  ${RBDL_URDFReader_LIBRARIES}
+  )
+
+# Copy urdf models to test
+FILE(GLOB URDF_TEST_MODELS
+  ${CMAKE_SOURCE_DIR}/unitTests/models/*.urdf
+)
+FILE(COPY ${URDF_TEST_MODELS} DESTINATION ${CMAKE_BINARY_DIR}/unitTests)
+
